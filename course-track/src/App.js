@@ -8,6 +8,7 @@ import CalendarView from './CalendarView';
 import NotificationCenter from './NotificationCenter';
 
 function App() {
+
   return (
     <Router>
       <div className="App">
