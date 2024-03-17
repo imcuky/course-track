@@ -6,6 +6,7 @@ import Onboarding from "./Onboarding";
 import AssignmentDashboard from "./AssignmentDashboard";
 import CalendarView from "./CalendarView";
 import NotificationCenter from "./NotificationCenter";
+import EventEmitter from "./EventEmitter";
 
 function App() {
   return (

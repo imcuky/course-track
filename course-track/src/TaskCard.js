@@ -15,11 +15,7 @@ const TaskCard = (props) => {
             id={`completed-${id}`}
             checked={completed}
             onChange={() => {
-              window.dispatchEvent(
-                new CustomEvent("assignmentStatusChanged", {
-                  detail: { assignment: props.assignment },
-                })
-              );
+              Event.emit("assignmentStatusChanged", props.assignment);
             }}
           />
           <label htmlFor={`completed-${id}`}>Completed</label>
