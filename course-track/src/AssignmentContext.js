@@ -115,14 +115,24 @@ export const AssignmentProvider = ({ children }) => {
   ]);
 
 
+  const [events, setEvents] = useState([]);
 
   return (
-    <AssignmentContext.Provider value={{ assignments, setAssignments}}>
+    <AssignmentContext.Provider value={{ assignments, setAssignments, events, setEvents}}>
       {children}
     </AssignmentContext.Provider>
   );
 };
 
-export const useAssignmentContext = () => useContext(AssignmentContext);
+export const useAssignmentsContext = () => {
+  const { assignments, setAssignments } = useContext(AssignmentContext);
+  return { assignments, setAssignments };
+};
+
+// Custom hook for events
+export const useEventsContext = () => {
+  const { events, setEvents } = useContext(AssignmentContext);
+  return { events, setEvents };
+};
 
 export default AssignmentContext;
