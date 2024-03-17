@@ -1,7 +1,8 @@
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect, Fragment, useContext  } from "react";
 import Popup from "reactjs-popup";
 import TaskCard from "./TaskCard";
 import Event from "./EventEmitter";
+import AssignmentContext from './AssignmentContext';
 
 const AssignmentDashboard = () => {
   const [newAssignmentTitle, setNewAssignmentTitle] = useState("");
@@ -9,7 +10,8 @@ const AssignmentDashboard = () => {
   const [newAssignmentCourse, setNewAssignmentCourse] = useState("");
   const [newAssignmentType, setNewAssignmentType] = useState("");
   const [newAssignmentDetail, setNewAssignmentDetail] = useState("");
-  const [assignments, setAssignments] = useState([
+  let { assignments, setAssignments } = useContext(AssignmentContext); 
+  /*const [assignments, setAssignments] = useState([
     {
       id: 1,
       title: "Complete Math Homework",
@@ -118,15 +120,9 @@ const AssignmentDashboard = () => {
       detail: "",
       completed: false,
     },
-  ]);
+  ]);*/
 
-  useEffect(() => {
-    Event.on("assignmentStatusChanged", handleStatusChange);
 
-    return () => {
-      Event.off("assignmentStatusChanged");
-    };
-  }, []);
 
   const resetForm = () => {
     setNewAssignmentTitle("");
@@ -136,7 +132,7 @@ const AssignmentDashboard = () => {
     setNewAssignmentDetail("");
   };
 
-  const handleDueDateChange = (assignmentId, newDueDate) => {
+ const handleDueDateChange = (assignmentId, newDueDate) => {
     setAssignments((prevAssignments) =>
       prevAssignments.map((assignment) =>
         assignment.id === assignmentId
@@ -166,8 +162,7 @@ const AssignmentDashboard = () => {
         completed: false,
       };
       setAssignments((prevAssignments) => [...prevAssignments, newAssignment]);
-      setNewAssignmentTitle("");
-      setNewAssignmentDueDate("");
+  
     }
   };
 
@@ -182,6 +177,17 @@ const AssignmentDashboard = () => {
   const overdueIncompleteAssignments = assignments.filter(
     (assignment) => new Date(assignment.dueDate) < new Date() && !assignment.completed
   );
+
+  
+  useEffect(() => {
+    Event.on("assignmentStatusChanged", handleStatusChange);
+    Event.emit("assignment_notfi", assignmentsDueNext7Days, overdueIncompleteAssignments)
+    return () => {
+      Event.off("assignmentStatusChanged");
+    };
+  }, [assignmentsDueNext7Days, overdueIncompleteAssignments]);
+
+
 
   return (
     <Fragment>
@@ -312,29 +318,7 @@ const AssignmentDashboard = () => {
         ))}
       </div>
 
-      <hr />
-      {overdueIncompleteAssignments.length > 0 && (
-        <div className="overdue-incomplete-assignments">
-          <h3>Overdue and Incomplete Assignments</h3>
-          <ul>
-            {overdueIncompleteAssignments.map((assignment) => (
-              <li key={assignment.id} style={{ color: "red" }}>
-                {assignment.title} - {assignment.dueDate}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-      <div className="upcoming-assessments">
-        <h3>Upcoming Assessments (Due Within Next 7 Days)</h3>
-        <ul>
-          {assignmentsDueNext7Days.map((assignment) => (
-            <li key={assignment.id}>
-              {assignment.title} - {assignment.dueDate}
-            </li>
-          ))}
-        </ul>
-      </div>
+ 
     </Fragment>
   );
 };

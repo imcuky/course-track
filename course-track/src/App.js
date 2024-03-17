@@ -7,10 +7,12 @@ import AssignmentDashboard from "./AssignmentDashboard";
 import CalendarView from "./CalendarView";
 import NotificationCenter from "./NotificationCenter";
 import EventEmitter from "./EventEmitter";
+import { AssignmentProvider } from './AssignmentContext';
 
 function App() {
   return (
     <Router>
+      <AssignmentProvider>
       <div className="app">
         <header className="app-header">
           <h1>CourseTrack</h1>
@@ -30,12 +32,17 @@ function App() {
           </nav>
         </header>
         <Routes>
+        
           <Route path="/" element={<Onboarding />} />
+          
           <Route path="/dashboard" element={<AssignmentDashboard />} />
           <Route path="/calendar" element={<CalendarView />} />
           <Route path="/notifications" element={<NotificationCenter />} />
+          
         </Routes>
+        
       </div>
+      </AssignmentProvider>
     </Router>
   );
 }
