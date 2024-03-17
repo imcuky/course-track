@@ -1,6 +1,7 @@
 import { useState, useEffect, Fragment } from "react";
 import Popup from "reactjs-popup";
 import TaskCard from "./TaskCard";
+import Event from "./EventEmitter";
 
 const AssignmentDashboard = () => {
   const [newAssignmentTitle, setNewAssignmentTitle] = useState("");
@@ -120,10 +121,10 @@ const AssignmentDashboard = () => {
   ]);
 
   useEffect(() => {
-    window.addEventListener("assignmentStatusChanged", handleStatusChange);
+    Event.on("assignmentStatusChanged", handleStatusChange);
 
     return () => {
-      window.removeEventListener("assignmentStatusChanged", handleStatusChange);
+      Event.off("assignmentStatusChanged");
     };
   }, []);
 
@@ -145,9 +146,7 @@ const AssignmentDashboard = () => {
     );
   };
 
-  const handleStatusChange = (e) => {
-    console.log("status changed");
-    const assignment = e.detail.assignment;
+  const handleStatusChange = (assignment) => {
     setAssignments((prevAssignments) =>
       prevAssignments.map((a) =>
         a.id === assignment.id ? { ...a, completed: !a.completed } : a
@@ -295,11 +294,7 @@ const AssignmentDashboard = () => {
                       id={`completed-${assignment.id}`}
                       checked={assignment.completed}
                       onChange={() => {
-                        window.dispatchEvent(
-                          new CustomEvent("assignmentStatusChanged", {
-                            detail: { assignment: assignment },
-                          })
-                        );
+                        Event.emit("assignmentStatusChanged", assignment);
                       }}
                     />
                     <label htmlFor={`completed-${assignment.id}`}>Completed</label>
