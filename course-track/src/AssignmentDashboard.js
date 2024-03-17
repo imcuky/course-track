@@ -152,56 +152,6 @@ const AssignmentDashboard = () => {
         )}
       </Popup>
 
-      {/* <div className="dashboard-container">
-        
-        <div
-          className="table-container"
-          style={{ maxHeight: "400px", overflowY: "auto" }}
-        >
-          <table>
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Due Date</th>
-                <th>Course</th>
-                <th>Task Type</th>
-                <th>Completed</th>
-              </tr>
-            </thead>
-            <tbody>
-              {assignments.map((assignment) => (
-                <tr
-                  key={assignment.id}
-                  style={{ backgroundColor: assignment.completed ? "lightgreen" : "" }}
-                >
-                  <td>{assignment.title}</td>
-                  <td>
-                    <input
-                      type="date"
-                      value={assignment.dueDate}
-                      onChange={(e) => handleDueDateChange(assignment.id, e.target.value)}
-                    />
-                  </td>
-                  <td>{assignment.course}</td>
-                  <td>{assignment.type}</td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      id={`completed-${assignment.id}`}
-                      checked={assignment.completed}
-                      onChange={() => {
-                        Event.emit("assignmentStatusChanged", assignment);
-                      }}
-                    />
-                    <label htmlFor={`completed-${assignment.id}`}>Completed</label>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div> */}
-
       <div className="dashboard-card-container">
         {assignments.map((assignment) => (
           <TaskCard key={assignment.id} assignment={assignment} />
