@@ -69,11 +69,12 @@ const AssignmentDashboard = () => {
   
   useEffect(() => {
     Event.on("assignmentStatusChanged", handleStatusChange);
-    Event.emit("assignment_notfi", assignmentsDueNext7Days, overdueIncompleteAssignments)
+    Event.on("assignmentDueDateChanged", handleDueDateChange);
     return () => {
       Event.off("assignmentStatusChanged");
+      Event.off("assignmentDueDateChanged");
     };
-  }, [assignmentsDueNext7Days, overdueIncompleteAssignments]);
+  }, []);
 
 
 
@@ -151,7 +152,8 @@ const AssignmentDashboard = () => {
         )}
       </Popup>
 
-      <div className="dashboard-container">
+      {/* <div className="dashboard-container">
+        
         <div
           className="table-container"
           style={{ maxHeight: "400px", overflowY: "auto" }}
@@ -198,7 +200,7 @@ const AssignmentDashboard = () => {
             </tbody>
           </table>
         </div>
-      </div>
+      </div> */}
 
       <div className="dashboard-card-container">
         {assignments.map((assignment) => (

@@ -22,7 +22,9 @@ const TaskCard = (props) => {
           />
           <label htmlFor={`completed-${id}`}>Completed</label>
         </div>
-        <input type="date" value={dueDate} />
+        <input type="date" value={dueDate} onChange={(e) => {
+              Event.emit("assignmentDueDateChanged", props.assignment.id, e.target.value);
+            }}/>
       </Card.Body>
     </Card>
   );
