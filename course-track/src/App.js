@@ -7,7 +7,7 @@ import AssignmentDashboard from "./AssignmentDashboard";
 import CalendarView from "./CalendarView";
 import NotificationCenter from "./NotificationCenter";
 import EventEmitter from "./EventEmitter";
-import { AssignmentProvider } from './AssignmentContext';
+import { AssignmentProvider } from './Context';
 
 function App() {
   return (

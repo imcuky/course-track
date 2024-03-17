@@ -2,7 +2,7 @@ import { useState, useEffect, Fragment, useContext  } from "react";
 import Popup from "reactjs-popup";
 import TaskCard from "./TaskCard";
 import Event from "./EventEmitter";
-import { useAssignmentsContext, useEventsContext } from './AssignmentContext';
+import { useAssignmentsContext, useEventsContext } from './Context';
 
 const AssignmentDashboard = () => {
   const [newAssignmentTitle, setNewAssignmentTitle] = useState("");

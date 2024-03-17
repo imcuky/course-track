@@ -3,7 +3,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import Popup from 'reactjs-popup'; // Import Popup from reactjs-popup
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { useAssignmentsContext, useEventsContext } from './AssignmentContext';
+import { useAssignmentsContext, useEventsContext } from './Context';
 
 const localizer = momentLocalizer(moment);
 
@@ -72,7 +72,7 @@ const CalendarView = () => {
         borderRadius: '5px',
         padding: '3px',
       },
-      title: `${event.title} ${moment(event.start).format('LT')} - ${moment(event.end).format('LT')}`,
+      title: `${event.title}: ${moment(event.startTime)} - ${moment(event.endtTime)}`,
     };
   };
 

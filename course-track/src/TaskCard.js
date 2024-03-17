@@ -10,6 +10,7 @@ const TaskCard = (props) => {
         <Card.Title>{course}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{type}</Card.Subtitle>
         <Card.Text>{title}</Card.Text>
+        <Card.Text>{detail}</Card.Text>
         <div className="completed-checkbox">
           <input
             type="checkbox"
