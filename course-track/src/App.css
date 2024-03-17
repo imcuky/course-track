@@ -1,9 +1,9 @@
 /* App.css */
-.App {
+.app {
   text-align: center;
 }
 
-.App-header {
+.app-header {
   background-color: #282c34;
   min-height: 10vh;
   display: flex;
@@ -11,29 +11,56 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #fff;
 }
 
 .tab-bar {
   display: flex;
+  gap: 20px;
 }
 
 .tab-button {
-  margin-right: 20px;
   padding: 10px;
   text-decoration: none;
   color: white;
 }
 
 .tab-button:hover {
-  background-color: lightgray;
+  background-color: #ffffff25;
+}
+
+.app-header a.active {
+  background-color: #ffffff25;
 }
 
 .dashboard-container {
   display: flex;
   justify-content: center;
   align-items: center;
- 
 }
 
+.task-card {
+  width: 18rem;
+}
 
+.dashboard-card-container {
+  display: flex;
+  justify-content: center;
+  align-content: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+  max-width: 100%;
+  margin: 12px;
+}
+
+.dashboard-card-container > * {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.completed-checkbox {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
