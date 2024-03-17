@@ -1,4 +1,5 @@
 import Card from "react-bootstrap/Card";
+import Event from "./EventEmitter";
 
 const TaskCard = (props) => {
   const { id, title, dueDate, course, type, detail, completed } = props.assignment;
