@@ -51,7 +51,8 @@ const NotificationCenter = () => {
           <ul className="list-group mb-4">
             {upcomingEvents.map((event) => (
               <li key={event.id} className="list-group-item">
-                {event.title} : {event.startTime} - {event.endTime}
+                {event.title} : {event.start.toLocaleDateString()} {event.startTime} - {event.endTime}
+
               </li>
             ))}
           </ul>
