@@ -69,7 +69,7 @@ const TaskCard = (props) => {
               }}
               onClick={handleCheckboxClick} // Prevent click event propagation
             />
-            <label htmlFor={`completed-${id}`}>Completed</label>
+            <label htmlFor={`completed-${id}`} onClick={handleCheckboxClick}>Completed</label>
           </div>
           <input
             type="date"
