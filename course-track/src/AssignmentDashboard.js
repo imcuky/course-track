@@ -11,6 +11,7 @@ const AssignmentDashboard = () => {
   const [newAssignmentType, setNewAssignmentType] = useState("");
   const [newAssignmentDetail, setNewAssignmentDetail] = useState("");
   let { assignments, setAssignments } = useAssignmentsContext();
+
  
   const resetForm = () => {
     setNewAssignmentTitle("");
@@ -39,7 +40,12 @@ const AssignmentDashboard = () => {
   };
 
   const handleAddAssignment = () => {
-    if (newAssignmentTitle.trim() !== "" && newAssignmentDueDate.trim() !== "") {
+    if (
+      newAssignmentTitle.trim() !== '' &&
+      newAssignmentDueDate.trim() !== '' &&
+      newAssignmentCourse.trim() !== '' &&
+      newAssignmentType.trim() !== ''
+    ) {
       const newAssignment = {
         id: assignments.length + 1,
         title: newAssignmentTitle,
@@ -49,30 +55,37 @@ const AssignmentDashboard = () => {
         detail: newAssignmentDetail,
         completed: false,
       };
+
       setAssignments((prevAssignments) => [...prevAssignments, newAssignment]);
-  
+      resetForm(); // Reset the form after saving
+      alert('Assignment added successfully!');
+    } else {
+      alert('Please fill in all required fields before adding the assignment.');
     }
   };
 
-  // Get assignments due within the next 7 days
-  const next7Days = new Date();
-  next7Days.setDate(next7Days.getDate() + 7);
-  const assignmentsDueNext7Days = assignments.filter(
-    (assignment) => new Date(assignment.dueDate) <= next7Days && !assignment.completed
-  );
 
-  // Get overdue and incomplete assignments
-  const overdueIncompleteAssignments = assignments.filter(
-    (assignment) => new Date(assignment.dueDate) < new Date() && !assignment.completed
-  );
 
+  const editedAssignment = (assignment) =>{
+    setAssignments((prevAssignments) =>
+      prevAssignments.map((a) =>
+        a.id === assignment.id ? { ...a, title: assignment.title,
+        course: assignment.course,
+        type: assignment.type,
+        detail: assignment.detail, } : a
+      )
+    );
+    alert('Assignment update successfully!');
+  }
   
   useEffect(() => {
     Event.on("assignmentStatusChanged", handleStatusChange);
     Event.on("assignmentDueDateChanged", handleDueDateChange);
+    Event.on('editAssignment', editedAssignment);
     return () => {
       Event.off("assignmentStatusChanged");
       Event.off("assignmentDueDateChanged");
+      Event.off('editAssignment');
     };
   }, []);
 
@@ -82,75 +95,76 @@ const AssignmentDashboard = () => {
     <Fragment>
       <h2>Assignment Dashboard</h2>
       <Popup
-        trigger={<button>Add New Assignment</button>}
-        modal
-        closeOnDocumentClick={false}
-      >
-        {(close) => (
-          <div
-            className="popup-content"
-            style={{ backgroundColor: "#f0f0f0", padding: "20px" }}
-          >
-            <h3>Add New Assignment</h3>
-            <input
-              type="text"
-              placeholder="Assignment Title"
-              value={newAssignmentTitle}
-              onChange={(e) => setNewAssignmentTitle(e.target.value)}
-              required
-            />{" "}
-            <br />
-            <input
-              type="date"
-              value={newAssignmentDueDate}
-              onChange={(e) => setNewAssignmentDueDate(e.target.value)}
-              required
-            />
-            <br />
-            <input
-              type="text"
-              placeholder="Course"
-              value={newAssignmentCourse}
-              onChange={(e) => setNewAssignmentCourse(e.target.value)}
-              required
-            />
-            <br />
-            <input
-              type="text"
-              placeholder="Task Type"
-              value={newAssignmentType}
-              onChange={(e) => setNewAssignmentType(e.target.value)}
-              required
-            />
-            <br />
-            <textarea
-              placeholder="Task Detail"
-              value={newAssignmentDetail}
-              onChange={(e) => setNewAssignmentDetail(e.target.value)}
-            />
-            <br />
-            <button
-              type="submit"
-              onClick={() => {
-                // Save logic goes here
-                handleAddAssignment();
-                close();
-                resetForm(); // Reset the form after saving
-              }}
-            >
-              Save
-            </button>
-            <button
-              onClick={() => {
-                close();
-                resetForm(); // Reset the form on cancel as well
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        )}
-      </Popup>
+  trigger={<button className="btn btn-primary">Add New Assignment</button>}
+  modal
+  closeOnDocumentClick={false} 
+  contentStyle={{ maxWidth: '600px', padding: '20px', borderRadius: '10px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', backgroundColor: "#f0f0f0" }}
+>
+  {(close) => (
+    <div className="popup-content p-4">
+      <h3>Add New Assignment</h3>
+      <input
+        type="text"
+        className="form-control mb-3"
+        placeholder="Assignment Title"
+        value={newAssignmentTitle}
+        onChange={(e) => setNewAssignmentTitle(e.target.value)}
+        required
+      />
+      <input
+        type="date"
+        className="form-control mb-3"
+        value={newAssignmentDueDate}
+        onChange={(e) => setNewAssignmentDueDate(e.target.value)}
+        required
+      />
+      <input
+        type="text"
+        className="form-control mb-3"
+        placeholder="Course"
+        value={newAssignmentCourse}
+        onChange={(e) => setNewAssignmentCourse(e.target.value)}
+        required
+      />
+      <input
+        type="text"
+        className="form-control mb-3"
+        placeholder="Task Type"
+        value={newAssignmentType}
+        onChange={(e) => setNewAssignmentType(e.target.value)}
+        required
+      />
+      <textarea
+        className="form-control mb-3"
+        placeholder="Task Detail (Optional)"
+        value={newAssignmentDetail}
+        onChange={(e) => setNewAssignmentDetail(e.target.value)}
+      />
+      <div className="text-center">
+        <button
+          className="btn btn-primary me-2"
+          type="submit"
+          onClick={() => {
+            // Save logic goes here
+            handleAddAssignment();
+          }}
+        >
+          Add
+        </button>
+        <button
+          className="btn btn-secondary"
+          onClick={() => {
+            close();
+            resetForm(); // Reset the form on cancel as well
+          }}
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  )}
+</Popup>
+
 
       <div className="dashboard-card-container">
         {assignments.map((assignment) => (
