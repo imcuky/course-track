@@ -1,6 +1,6 @@
-# Lab8_Group5
+# course-track website
 
-`cd ..\Lab8_Group5\course-track`
+`cd ..\..\course-track`
 
 `npm install`
 
