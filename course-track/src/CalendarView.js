@@ -14,6 +14,8 @@ const CalendarView = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [popupOpen, setPopupOpen] = useState(false); // State to manage popup open/close
 
+  let { assignments, setAssignments } = useAssignmentsContext(); //assignments
+
   const handleSelectSlot = ({ start, end }) => {
     setSelectedSlot({ start, end });
     setSelectedEvent(null); // Reset selected event when selecting a slot
@@ -111,43 +113,72 @@ const EventForm = ({ selectedDate, selectedEvent, onAddEvent, onEditEvent, onDel
   const [endTime, setEndTime] = useState(selectedEvent ? selectedEvent.endTime : '');
 
   const handleSubmit = () => {
+    if (!title.trim() || !startTime || !endTime) {
+      // Display error message for incomplete inputs
+      alert("Please fill in all fields before submitting.");
+      return;
+    }
+  
+    if (startTime >= endTime) {
+      // Display error message for invalid time range
+      alert("End time should be after start time.");
+      return;
+    }
+  
     if (selectedEvent) {
+      // Call onEditEvent if editing an event
       onEditEvent(title, startTime, endTime);
+      alert("Event edited successfully.");
     } else {
+      // Call onAddEvent if adding a new event
       onAddEvent(title, startTime, endTime);
+      alert("Event added successfully.");
     }
   };
+  
 
   return (
-    <div className="event-form" style={{ textAlign: 'center' }}>
-      <h3>{selectedEvent ? 'Edit Event' : 'Add Event'} - {selectedDate && moment(selectedDate).format('MMMM Do, YYYY')}</h3>
-      <input
-        type="text"
-        placeholder="Event Title"
-        value={title}
-        onChange={e => setTitle(e.target.value)}
-        style={{ marginBottom: '10px' }}
-      /> <br/>
-      <label>Start time:</label>
-      <input
-        type="time"
-        value={startTime}
-        onChange={e => setStartTime(e.target.value)}
-        style={{ marginRight: '10px' }}
-      /><br/>
-      <label>End time:</label>
-      <input
-        type="time"
-        value={endTime}
-        onChange={e => setEndTime(e.target.value)}
-        style={{ marginRight: '10px' }}
-      /><br/>
-      <button onClick={handleSubmit}>{selectedEvent ? 'Update' : 'Add'} Event</button>
-      {selectedEvent && (
-        <button onClick={onDeleteEvent}>Delete Event</button>
-      )}
-      <button onClick={onCancel}>Cancel</button>
-    </div>
+<div className="container event-form text-center">
+  <h3>{selectedEvent ? 'Edit Event' : 'Add Event'} - {selectedDate && moment(selectedDate).format('MMMM Do, YYYY')}</h3>
+  <div className="form-group">
+    <input
+      type="text"
+      className="form-control"
+      placeholder="Event Title"
+      value={title}
+      onChange={e => setTitle(e.target.value)}
+    />
+  </div>
+  <div className="form-group">
+    <label>Start time:</label>
+    <input
+      type="time"
+      className="form-control"
+      value={startTime}
+      onChange={e => setStartTime(e.target.value)}
+    />
+  </div>
+  <div className="form-group">
+    <label>End time:</label>
+    <input
+      type="time"
+      className="form-control"
+      value={endTime}
+      onChange={e => setEndTime(e.target.value)}
+    />
+  </div>
+  <div className="mb-3">
+    <button className="btn btn-primary me-2" onClick={handleSubmit}>{selectedEvent ? 'Update' : 'Add'} Event</button>
+    {selectedEvent && (
+      <button className="btn btn-danger me-2" onClick={onDeleteEvent}>Delete Event</button>
+    )}
+    <button className="btn btn-secondary me-2" onClick={onCancel}>Cancel</button>
+  </div>
+
+  
+</div>
+
+
   );
 };
 
