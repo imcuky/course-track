@@ -3,6 +3,11 @@
   text-align: center;
 }
 
+.non-clickable-event {
+  pointer-events: none;
+}
+
+
 .app-header {
   background-color: #282c34;
   min-height: 10vh;

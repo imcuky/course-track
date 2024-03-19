@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect  } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import Popup from 'reactjs-popup'; // Import Popup from reactjs-popup
@@ -14,7 +14,22 @@ const CalendarView = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [popupOpen, setPopupOpen] = useState(false); // State to manage popup open/close
 
-  let { assignments, setAssignments } = useAssignmentsContext(); //assignments
+  
+  const { assignments } = useAssignmentsContext();
+  const [assignmentEvents, setAssEvents] = useState([]);
+
+  useEffect(() => {
+    const assignmentEvents = assignments.map(assignment => ({
+      start: moment(assignment.dueDate).toDate(),
+      end: moment(assignment.dueDate).toDate(),
+      title: assignment.title,
+      backgroundColor: 'red', // Customize background color for assignment due dates
+      allDay: true, // Set events as all-day
+      clickable: false, // Make events non-clickable
+    }));
+    const allEvents = [...events, ...assignmentEvents];
+    setAssEvents(assignmentEvents);
+  }, [assignments]);
 
   const handleSelectSlot = ({ start, end }) => {
     setSelectedSlot({ start, end });
@@ -65,25 +80,40 @@ const CalendarView = () => {
     setPopupOpen(false); // Close the popup after deleting the event
   };
 
-  // Function to customize event display in the calendar
   const eventPropGetter = event => {
-    return {
-      style: {
-        backgroundColor: event.color,
-        borderColor: event.color,
-        borderRadius: '5px',
-        padding: '3px',
-      },
-      title: `${event.title}: ${moment(event.startTime)} - ${moment(event.endtTime)}`,
-    };
+    // Check if the event has a property 'allDay' to determine if it's an assignment
+    if (event.allDay) {
+      return {
+        style: {
+          backgroundColor: '#CD5C5C', // Customize background color for assignments
+          borderColor: '#CD5C5C', // Customize border color for assignments
+          borderRadius: '5px',
+          padding: '3px',
+        },
+        title: `${event.title} (Assignment)`,
+        className: 'non-clickable-event', // Add a CSS class for assignment events
+      };
+    } else {
+      return {
+        style: {
+          backgroundColor: event.color || '#1E90FF', // Default background color for events
+          borderColor: event.color || '#1E90FF', // Default border color for events
+          borderRadius: '5px',
+          padding: '3px',
+        },
+        title: `${event.title}: ${moment(event.startTime).format('h:mm A')} - ${moment(event.endTime).format('h:mm A')}`,
+      };
+    }
   };
+  
+
 
   return (
     <div>
       <h2>Calendar View</h2>
       <Calendar
         localizer={localizer}
-        events={events}
+        events={[...events, ...assignmentEvents]}
         startAccessor="start"
         endAccessor="end"
         selectable
