@@ -16,7 +16,6 @@ import translations from "./translations/translations";
 
 function ConnectedApp() {
 	const [locale, setLocale] = useState("en");
-	console.log(`The locale is ${locale}`);
 	const messages = translations[locale];
 
 	const LanguageDropdown = () => {
@@ -27,9 +26,14 @@ function ConnectedApp() {
 			<select
 				value={locale}
 				onChange={(event) => handleOnSelect(event.target.value)}
+				className="language-dropdown"
 			>
-				<option value="en">EN</option>
-				<option value="fr">FR</option>
+				<option value="en" className="language-dropdown-option">
+					EN
+				</option>
+				<option value="fr" className="language-dropdown-option">
+					FR
+				</option>
 			</select>
 		);
 	};

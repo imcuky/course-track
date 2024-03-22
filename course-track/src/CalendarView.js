@@ -1,21 +1,27 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import Popup from "reactjs-popup"; // Import Popup from reactjs-popup
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useAssignmentsContext, useEventsContext } from "./Context";
+import {
+	useAssignmentsContext,
+	useEventsContext,
+	useLocaleContext,
+} from "./Context";
 import { FormattedMessage } from "react-intl";
-
-const localizer = momentLocalizer(moment);
 
 const CalendarView = () => {
 	let { events, setEvents } = useEventsContext();
+	const { locale } = useLocaleContext();
 	const [selectedSlot, setSelectedSlot] = useState(null);
 	const [selectedEvent, setSelectedEvent] = useState(null);
 	const [popupOpen, setPopupOpen] = useState(false); // State to manage popup open/close
 
 	const { assignments } = useAssignmentsContext();
 	const [assignmentEvents, setAssEvents] = useState([]);
+
+	// moment.locale(locale); // TODO: localize calendar
+	const localizer = momentLocalizer(moment);
 
 	useEffect(() => {
 		const assignmentEvents = assignments.map((assignment) => ({

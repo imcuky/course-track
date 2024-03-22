@@ -1,71 +1,79 @@
 /* App.css */
 .app {
-  text-align: center;
+	text-align: center;
 }
 
 .non-clickable-event {
-  pointer-events: none;
+	pointer-events: none;
 }
 
-
 .app-header {
-  background-color: #282c34;
-  min-height: 10vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: #fff;
+	background-color: #282c34;
+	min-height: 10vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: calc(10px + 2vmin);
+	color: #fff;
 }
 
 .tab-bar {
-  display: flex;
-  gap: 20px;
+	display: flex;
+	gap: 20px;
 }
 
 .tab-button {
-  padding: 10px;
-  text-decoration: none;
-  color: white;
+	padding: 10px;
+	text-decoration: none;
+	color: white;
 }
 
 .tab-button:hover {
-  background-color: #ffffff25;
+	background-color: #ffffff25;
 }
 
 .app-header a.active {
-  background-color: #ffffff25;
+	background-color: #ffffff25;
 }
 
 .dashboard-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .task-card {
-  width: 18rem;
+	width: 18rem;
 }
 
 .dashboard-card-container {
-  display: flex;
-  justify-content: center;
-  align-content: flex-start;
-  gap: 10px;
-  flex-wrap: wrap;
-  max-width: 100%;
-  margin: 12px;
+	display: flex;
+	justify-content: center;
+	align-content: flex-start;
+	gap: 10px;
+	flex-wrap: wrap;
+	max-width: 100%;
+	margin: 12px;
 }
 
 .dashboard-card-container > * {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .completed-checkbox {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+}
+
+.language-dropdown {
+	background: #ffffff25;
+	color: white;
+}
+
+.language-dropdown-option {
+	color: black;
 }
