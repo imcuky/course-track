@@ -8,8 +8,8 @@ import {
 	useEventsContext,
 	useLocaleContext,
 } from "./Context";
-import { FormattedMessage } from "react-intl";
-
+import { FormattedMessage, IntlProvider } from "react-intl";
+import translations from "./translations/translations.json";
 const CalendarView = () => {
 	let { events, setEvents } = useEventsContext();
 	const { locale } = useLocaleContext();
@@ -22,6 +22,8 @@ const CalendarView = () => {
 
 	// moment.locale(locale); // TODO: localize calendar
 	const localizer = momentLocalizer(moment);
+
+	console.log(locale);	
 
 	useEffect(() => {
 		const assignmentEvents = assignments.map((assignment) => ({
@@ -161,108 +163,106 @@ const EventForm = ({
 	onEditEvent,
 	onDeleteEvent,
 	onCancel,
-}) => {
-	const [title, setTitle] = useState(
-		selectedEvent ? selectedEvent.title : ""
-	);
+  }) => {
+	const [title, setTitle] = useState(selectedEvent ? selectedEvent.title : "");
 	const [startTime, setStartTime] = useState(
-		selectedEvent ? selectedEvent.startTime : ""
+	  selectedEvent ? selectedEvent.startTime : ""
 	);
 	const [endTime, setEndTime] = useState(
-		selectedEvent ? selectedEvent.endTime : ""
+	  selectedEvent ? selectedEvent.endTime : ""
 	);
-
+  
+	const { locale } = useLocaleContext(); // Assuming you have a hook for getting the current locale
+	const messages = translations[locale];
+  
 	const handleSubmit = () => {
-		if (!title.trim() || !startTime || !endTime) {
-			// Display error message for incomplete inputs
-			alert(<FormattedMessage id="fill_all_fields"></FormattedMessage>);
-			return;
-		}
-
-		if (startTime >= endTime) {
-			// Display error message for invalid time range
-			alert(
-				<FormattedMessage id="end_time_after_start_time"></FormattedMessage>
-			);
-			return;
-		}
-
-		if (selectedEvent) {
-			// Call onEditEvent if editing an event
-			onEditEvent(title, startTime, endTime);
-			alert(<FormattedMessage id="event_edit_succ"></FormattedMessage>);
-		} else {
-			// Call onAddEvent if adding a new event
-			onAddEvent(title, startTime, endTime);
-			alert(<FormattedMessage id="event_add_succ"></FormattedMessage>);
-		}
+	  if (!title.trim() || !startTime || !endTime) {
+		// Display error message for incomplete inputs
+		alert(messages.fill_all_fields);
+		return;
+	  }
+  
+	  if (startTime >= endTime) {
+		// Display error message for invalid time range
+		alert(messages.end_time_after_start_time);
+		return;
+	  }
+  
+	  if (selectedEvent) {
+		// Call onEditEvent if editing an event
+		onEditEvent(title, startTime, endTime);
+		alert(messages.event_edit_succ);
+	  } else {
+		// Call onAddEvent if adding a new event
+		onAddEvent(title, startTime, endTime);
+		alert(messages.event_add_succ);
+	  }
 	};
-
+  
 	return (
+	  <IntlProvider locale={locale} messages={messages}>
 		<div className="container event-form text-center">
-			<h3>
-				{selectedEvent ? (
-					<FormattedMessage id="edit_event"></FormattedMessage>
-				) : (
-					<FormattedMessage id="add_event"></FormattedMessage>
-				)}{" "}
-				- {selectedDate && moment(selectedDate).format("MMMM Do, YYYY")}
-			</h3>
-			<div className="form-group">
-				<input
-					type="text"
-					className="form-control"
-					placeholder="Event Title"
-					value={title}
-					onChange={(e) => setTitle(e.target.value)}
-				/>
-			</div>
-			<div className="form-group">
-				<label>
-					<FormattedMessage id="start_time"></FormattedMessage>
-				</label>
-				<input
-					type="time"
-					className="form-control"
-					value={startTime}
-					onChange={(e) => setStartTime(e.target.value)}
-				/>
-			</div>
-			<div className="form-group">
-				<label>
-					<FormattedMessage id="end_time"></FormattedMessage>
-				</label>
-				<input
-					type="time"
-					className="form-control"
-					value={endTime}
-					onChange={(e) => setEndTime(e.target.value)}
-				/>
-			</div>
-			<div className="mb-3">
-				<button className="btn btn-primary me-2" onClick={handleSubmit}>
-					{`${
-						selectedEvent ? (
-							<FormattedMessage id="update"></FormattedMessage>
-						) : (
-							<FormattedMessage id="add"></FormattedMessage>
-						)
-					} ${(<FormattedMessage id="event"></FormattedMessage>)}`}
-				</button>
-				{selectedEvent && (
-					<button
-						className="btn btn-danger me-2"
-						onClick={onDeleteEvent}
-					>
-						<FormattedMessage id="delete_event"></FormattedMessage>
-					</button>
-				)}
-				<button className="btn btn-secondary me-2" onClick={onCancel}>
-					<FormattedMessage id="cancel"></FormattedMessage>
-				</button>
-			</div>
+		  <h3>
+			{selectedEvent ? (
+			  <FormattedMessage id="edit_event" />
+			) : (
+			  <FormattedMessage id="add_event" />
+			)}{" "}
+			- {selectedDate && moment(selectedDate).format("MMMM Do, YYYY")}
+		  </h3>
+		  <div className="form-group">
+			<input
+			  type="text"
+			  className="form-control"
+			  placeholder={messages.event_title}
+			  value={title}
+			  onChange={(e) => setTitle(e.target.value)}
+			/>
+		  </div>
+		  <div className="form-group">
+			<label>
+			  <FormattedMessage id="start_time" />
+			</label>
+			<input
+			  type="time"
+			  className="form-control"
+			  value={startTime}
+			  onChange={(e) => setStartTime(e.target.value)}
+			/>
+		  </div>
+		  <div className="form-group">
+			<label>
+			  <FormattedMessage id="end_time" />
+			</label>
+			<input
+			  type="time"
+			  className="form-control"
+			  value={endTime}
+			  onChange={(e) => setEndTime(e.target.value)}
+			/>
+		  </div>
+		  <div className="mb-3">
+			<button className="btn btn-primary me-2" onClick={handleSubmit}>
+			  {selectedEvent ? (
+				<FormattedMessage id="update" />
+			  ) : (
+				<FormattedMessage id="add" />
+			  )}{" "}
+			  <FormattedMessage id="event" />
+			</button>
+			{selectedEvent && (
+			  <button className="btn btn-danger me-2" onClick={onDeleteEvent}>
+				<FormattedMessage id="delete_event" />
+			  </button>
+			)}
+			<button className="btn btn-secondary me-2" onClick={onCancel}>
+			  <FormattedMessage id="cancel" />
+			</button>
+		  </div>
 		</div>
+	  </IntlProvider>
 	);
-};
+  };
+  
 
 export default CalendarView;
