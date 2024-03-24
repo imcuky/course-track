@@ -2,7 +2,7 @@ import { useState, useEffect, Fragment, useContext } from "react";
 import Popup from "reactjs-popup";
 import TaskCard from "./TaskCard";
 import Event from "./EventEmitter";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useAssignmentsContext, useEventsContext } from "./Context";
 
 const AssignmentDashboard = () => {
@@ -12,6 +12,8 @@ const AssignmentDashboard = () => {
 	const [newAssignmentType, setNewAssignmentType] = useState("");
 	const [newAssignmentDetail, setNewAssignmentDetail] = useState("");
 	let { assignments, setAssignments } = useAssignmentsContext();
+
+	const intl = useIntl();
 
 	const resetForm = () => {
 		setNewAssignmentTitle("");
@@ -61,10 +63,10 @@ const AssignmentDashboard = () => {
 				newAssignment,
 			]);
 			resetForm(); // Reset the form after saving
-			alert(<FormattedMessage id="ass_add_succ"></FormattedMessage>);
+			alert(intl.formatMessage({ id: "ass_add_succ" }));
 		} else {
 			alert(
-				<FormattedMessage id="ass_add_missing_req_fields"></FormattedMessage>
+				intl.formatMessage({ id: "ass_add_missing_req_fields" })
 			);
 		}
 	};
@@ -83,7 +85,10 @@ const AssignmentDashboard = () => {
 					: a
 			)
 		);
-		alert(<FormattedMessage id="ass_update_succ"></FormattedMessage>);
+		alert(
+			intl.formatMessage({ id: "ass_update_succ"})
+		
+		);
 	};
 
 	useEffect(() => {
@@ -127,7 +132,10 @@ const AssignmentDashboard = () => {
 						<input
 							type="text"
 							className="form-control mb-3"
-							placeholder="Assignment Title"
+							placeholder={
+								
+								intl.formatMessage({ id: "ass_title"})
+							}
 							value={newAssignmentTitle}
 							onChange={(e) =>
 								setNewAssignmentTitle(e.target.value)
@@ -146,7 +154,10 @@ const AssignmentDashboard = () => {
 						<input
 							type="text"
 							className="form-control mb-3"
-							placeholder="Course"
+							placeholder={
+								
+								intl.formatMessage({ id: "course"})
+							}
 							value={newAssignmentCourse}
 							onChange={(e) =>
 								setNewAssignmentCourse(e.target.value)
@@ -156,7 +167,10 @@ const AssignmentDashboard = () => {
 						<input
 							type="text"
 							className="form-control mb-3"
-							placeholder="Task Type"
+							placeholder={
+								
+								intl.formatMessage({ id: "task_type"})
+							}
 							value={newAssignmentType}
 							onChange={(e) =>
 								setNewAssignmentType(e.target.value)
@@ -165,7 +179,10 @@ const AssignmentDashboard = () => {
 						/>
 						<textarea
 							className="form-control mb-3"
-							placeholder="Task Detail (Optional)"
+							placeholder={
+								
+								intl.formatMessage({ id: "task_detail"})
+							}
 							value={newAssignmentDetail}
 							onChange={(e) =>
 								setNewAssignmentDetail(e.target.value)
@@ -180,7 +197,7 @@ const AssignmentDashboard = () => {
 									handleAddAssignment();
 								}}
 							>
-								Add
+								<FormattedMessage id="add" />
 							</button>
 							<button
 								className="btn btn-secondary"
@@ -189,7 +206,7 @@ const AssignmentDashboard = () => {
 									resetForm(); // Reset the form on cancel as well
 								}}
 							>
-								Cancel
+								<FormattedMessage id="cancel" ></FormattedMessage>
 							</button>
 						</div>
 					</div>
