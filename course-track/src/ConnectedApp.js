@@ -13,13 +13,16 @@ import CalendarView from "./CalendarView";
 import NotificationCenter from "./NotificationCenter";
 import { IntlProvider } from "react-intl";
 import translations from "./translations/translations";
-
+import {
+	useLocaleContext
+} from "./Context";
 function ConnectedApp() {
-	const [locale, setLocale] = useState("en");
+	//const [locale, setLocale] = useState("en");
+	const { locale, setLocale } = useLocaleContext();
 	const messages = translations[locale];
 
 	const LanguageDropdown = () => {
-		const handleOnSelect = (selectedLocale = "en") => {
+		const handleOnSelect = (selectedLocale) => {
 			setLocale(selectedLocale);
 		};
 		return (
