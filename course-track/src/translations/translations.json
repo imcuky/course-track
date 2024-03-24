@@ -22,6 +22,7 @@
 		"end_time": "End time:",
 		"event": "Event",
 		"delete_event": "Delete Event",
+		"event_title":"Event Title",
 
 		"notif_center": "Notification Center",
 		"upcoming_ass": "Upcoming Assessments (Due Within Next 7 Days)",
@@ -54,7 +55,7 @@
 
 		"ass_add_succ": "Devoir ajouté avec succès !",
 		"ass_add_missing_req_fields": "Veuillez remplir tous les champs obligatoires avant d'ajouter le devoir.",
-		"ass_update_succ": "Devoir mis à jour avec succès !",
+		"ass_update_succ": "Devoir mis à jour avec succès !",
 		"ass_dashboard": "Tableau de bord des affectations",
 		"add_new_ass": "Ajouter une nouvelle affectation",
 
@@ -69,6 +70,7 @@
 		"end_time": "Heure de fin:",
 		"event": "Événement",
 		"delete_event": "Supprimer l'événement",
+		"event_title":"titre de l'événement",
 
 		"notif_center": "Centre de notification",
 		"upcoming_ass": "Évaluations à venir (dues dans les 7 prochains jours)",
