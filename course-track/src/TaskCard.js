@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
 import Popup from "reactjs-popup";
 import Event from "./EventEmitter";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage,useIntl } from "react-intl";
 
 const TaskCard = (props) => {
 	const { id, title, dueDate, course, type, detail, completed } =
@@ -12,6 +12,8 @@ const TaskCard = (props) => {
 	const [editedCourse, setEditedCourse] = useState(course);
 	const [editedType, setEditedType] = useState(type);
 	const [editedDetail, setEditedDetail] = useState(detail);
+	
+	const intl = useIntl();
 
 	const handleEdit = () => {
 		setIsOpen(true);
@@ -34,18 +36,24 @@ const TaskCard = (props) => {
 
 			// Emit event to update assignment details
 			Event.emit("editAssignment", editedAssignment);
+			setEditedTitle(editedTitle);
+			setEditedCourse(editedCourse);
+			setEditedType(editedType);
+			setEditedDetail(editedDetail);
+			setIsOpen(false);
 
 			// Close the popup and reset state
 		} else {
 			alert(
-				<FormattedMessage id="fill_all_fields_ass_update"></FormattedMessage>
+				intl.formatMessage({ id: "fill_all_fields_ass_update" })
+				
 			);
+			setEditedTitle(title);
+			setEditedCourse(course);
+			setEditedType(type);
+			setEditedDetail(detail);
 		}
-		setEditedTitle(editedTitle);
-		setEditedCourse(editedCourse);
-		setEditedType(editedType);
-		setEditedDetail(editedDetail);
-		setIsOpen(false);
+		
 	};
 
 	const handleCheckboxClick = (e) => {
@@ -120,7 +128,7 @@ const TaskCard = (props) => {
 						type="text"
 						className="form-control mb-3"
 						placeholder={
-							<FormattedMessage id="ass_title"></FormattedMessage>
+							intl.formatMessage({ id: "ass_title" })
 						}
 						value={editedTitle}
 						onChange={(e) => setEditedTitle(e.target.value)}
@@ -130,7 +138,7 @@ const TaskCard = (props) => {
 						type="text"
 						className="form-control mb-3"
 						placeholder={
-							<FormattedMessage id="course"></FormattedMessage>
+							intl.formatMessage({ id: "course" })
 						}
 						value={editedCourse}
 						onChange={(e) => setEditedCourse(e.target.value)}
@@ -140,7 +148,7 @@ const TaskCard = (props) => {
 						type="text"
 						className="form-control mb-3"
 						placeholder={
-							<FormattedMessage id="task_type"></FormattedMessage>
+							intl.formatMessage({ id: "task_type" })
 						}
 						value={editedType}
 						onChange={(e) => setEditedType(e.target.value)}
@@ -149,7 +157,7 @@ const TaskCard = (props) => {
 					<textarea
 						className="form-control mb-3"
 						placeholder={
-							<FormattedMessage id="task_detail"></FormattedMessage>
+							intl.formatMessage({ id: "task_detail" })
 						}
 						value={editedDetail}
 						onChange={(e) => setEditedDetail(e.target.value)}
@@ -163,7 +171,13 @@ const TaskCard = (props) => {
 						</button>
 						<button
 							className="btn btn-secondary me-2"
-							onClick={() => setIsOpen(false)}
+							onClick={() => {
+								setIsOpen(false);
+								setEditedTitle(title);
+								setEditedCourse(course);
+								setEditedType(type);
+								setEditedDetail(detail);
+							  }}
 						>
 							<FormattedMessage id="cancel"></FormattedMessage>
 						</button>
