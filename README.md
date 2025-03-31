@@ -20,8 +20,8 @@ The system enables students to create, track, and update assignments with detail
 │   ├── TaskCard.js              # Reusable assignment card component
 │   ├── ConnectedApp.js          # Main application router and layout
 │   └── Context.js               # Application state management
-├── public/              # Static assets and HTML entry point
-└── docs/                    # Documentation and infrastructure diagrams
+└── public/              # Static assets and HTML entry point
+
 ```
 
 ## Usage Instructions
@@ -49,7 +49,7 @@ npm install
 cd ../backend
 node server.js
 ```
-#### Step 4
+#### Step 3
 ```bash
 # Install frontend dependencies
 cd frontend
