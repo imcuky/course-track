@@ -31,26 +31,29 @@ The system enables students to create, track, and update assignments with detail
 - MongoDB (running on localhost:27017)
 
 ### Installation
+#### Step 1
 ```bash
 # Clone the repository
 git clone <repository-url>
 cd coursetrack
 
-# Install frontend dependencies
-cd frontend
-npm install
+```
 
+#### Step 2
+```bash
 # Install backend dependencies
 cd ../backend
 npm install
 
-```
-Setup MongoDB database 'course-track'
-```bash
-
 # Start the backend server
 cd ../backend
 node server.js
+```
+#### Step 4
+```bash
+# Install frontend dependencies
+cd frontend
+npm install
 
 # Run the App
 npm start
