@@ -44,7 +44,7 @@ const eventSchema = new mongoose.Schema({
 
 const Event = mongoose.model('Event', eventSchema);
 
-// get all assignment
+// 获取所有作业
 app.get('/api/assignments', async (req, res) => {
     try {
         const assignments = await Assignment.find();
