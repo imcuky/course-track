@@ -44,7 +44,6 @@ const eventSchema = new mongoose.Schema({
 
 const Event = mongoose.model('Event', eventSchema);
 
-// 获取所有作业
 app.get('/api/assignments', async (req, res) => {
     try {
         const assignments = await Assignment.find();
@@ -55,7 +54,6 @@ app.get('/api/assignments', async (req, res) => {
     }
 });
 
-// add new assignment
 app.post('/api/assignments', async (req, res) => {
     try {
         const newAssignment = new Assignment(req.body);
@@ -67,7 +65,6 @@ app.post('/api/assignments', async (req, res) => {
     }
 });
 
-// update assignment
 app.put('/api/assignments/:id', async (req, res) => {
     try {
         const updatedAssignment = await Assignment.findByIdAndUpdate(
@@ -82,7 +79,7 @@ app.put('/api/assignments/:id', async (req, res) => {
     }
 });
 
-// delete assignment
+
 app.delete('/api/assignments/:id', async (req, res) => {
     try {
         await Assignment.findByIdAndDelete(req.params.id);
@@ -93,7 +90,7 @@ app.delete('/api/assignments/:id', async (req, res) => {
     }
 });
 
-// get all event
+
 app.get('/api/events', async (req, res) => {
     try {
         const events = await Event.find();
@@ -104,7 +101,7 @@ app.get('/api/events', async (req, res) => {
     }
 });
 
-// add new event
+
 app.post('/api/events', async (req, res) => {
     try {
         const newEvent = new Event(req.body);
@@ -116,7 +113,7 @@ app.post('/api/events', async (req, res) => {
     }
 });
 
-// update event
+
 app.put('/api/events/:id', async (req, res) => {
     try {
         const updatedEvent = await Event.findByIdAndUpdate(
@@ -131,7 +128,7 @@ app.put('/api/events/:id', async (req, res) => {
     }
 });
 
-// delete event
+
 app.delete('/api/events/:id', async (req, res) => {
     try {
         await Event.findByIdAndDelete(req.params.id);
@@ -142,7 +139,7 @@ app.delete('/api/events/:id', async (req, res) => {
     }
 });
 
-// start the server
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
